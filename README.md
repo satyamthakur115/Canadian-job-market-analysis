@@ -1,4 +1,4 @@
-# 🇨🇦 Canadian Data Analyst Job Market Analysis (2023–2025)
+# Canadian Data Analyst Job Market Analysis (2023–2025)
 
 [![SQL](https://img.shields.io/badge/SQL-4479A1?style=flat-square&logo=mysql&logoColor=white)]()
 [![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)]()
