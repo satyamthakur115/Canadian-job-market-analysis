@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CA Data Analyst Jobs 2024 — Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d1117;
+    --bg2: #161b22;
+    --bg3: #21262d;
+    --border: rgba(240,246,252,0.1);
+    --border2: rgba(240,246,252,0.18);
+    --text: #e6edf3;
+    --text2: #8b949e;
+    --text3: #484f58;
+    --teal: #1D9E75;
+    --teal-light: #5DCAA5;
+    --blue: #378ADD;
+    --blue-light: #85B7EB;
+    --purple: #534AB7;
+    --amber: #EF9F27;
+    --coral: #D85A30;
+    --green: #639922;
+    --gray: #888780;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-sans: 'Inter', sans-serif;
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4rem;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    border-bottom: 0.5px solid var(--border2);
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .header-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .project-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--teal);
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+
+  h1 {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: var(--text2);
+  }
+
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 0.5px solid var(--border2);
+    color: var(--text2);
+  }
+
+  .badge.teal { background: rgba(29,158,117,0.15); color: #5DCAA5; border-color: rgba(29,158,117,0.3); }
+  .badge.blue { background: rgba(55,138,221,0.15); color: var(--blue-light); border-color: rgba(55,138,221,0.3); }
+  .badge.purple { background: rgba(83,74,183,0.15); color: #AFA9EC; border-color: rgba(83,74,183,0.3); }
+
+  .source-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  .pill {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text3);
+    background: var(--bg3);
+    border: 0.5px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 8px;
+  }
+
+  /* ── STAT ROW ── */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 1.5rem;
+  }
+
+  .stat {
+    background: var(--bg2);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+  }
+
+  .stat-val {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  .stat-val.accent { color: var(--teal); }
+
+  .stat-lbl {
+    font-size: 11px;
+    color: var(--text2);
+    margin-top: 4px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── GRID LAYOUTS ── */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--bg2);
+    border: 0.5px solid var(--border2);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+  }
+
+  .card-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text2);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .card-title::before {
+    content: '';
+    display: inline-block;
+    width: 3px;
+    height: 12px;
+    border-radius: 2px;
+    background: var(--teal);
+    flex-shrink: 0;
+  }
+
+  .card-title.blue::before { background: var(--blue); }
+  .card-title.purple::before { background: var(--purple); }
+  .card-title.amber::before { background: var(--amber); }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text2);
+  }
+
+  .legend span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  /* ── CANVAS WRAPPERS ── */
+  .chart-wrap { position: relative; width: 100%; }
+
+  /* ── INSIGHT BAR ── */
+  .insight-bar {
+    background: rgba(29,158,117,0.07);
+    border: 0.5px solid rgba(29,158,117,0.2);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    margin-bottom: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .insight {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .insight-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--teal-light);
+    letter-spacing: 0.06em;
+  }
+
+  .insight-val {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    border-top: 0.5px solid var(--border);
+    padding-top: 1.25rem;
+    margin-top: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text3);
+  }
+
+  .footer a {
+    color: var(--teal);
+    text-decoration: none;
+  }
+
+  .footer a:hover { text-decoration: underline; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    .stat-row { grid-template-columns: 1fr 1fr; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .grid-3 { grid-template-columns: 1fr; }
+    .insight-bar { grid-template-columns: 1fr; }
+    h1 { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-top">
+      <div>
+        <div class="project-tag">// data analysis project</div>
+        <h1>CA Data Analyst Jobs — 2024</h1>
+        <p class="subtitle">1,200 job postings scraped &amp; analyzed across Canada's major job boards</p>
+      </div>
+      <div class="badges">
+        <span class="badge teal">1,200 postings</span>
+        <span class="badge blue">7 provinces</span>
+        <span class="badge purple">10 job titles</span>
+      </div>
+    </div>
+    <div class="source-pills">
+      <span class="pill">Indeed</span>
+      <span class="pill">LinkedIn</span>
+      <span class="pill">Glassdoor</span>
+      <span class="pill">Job Bank</span>
+      <span class="pill">Company Websites</span>
+      <span class="pill">Nov 2023 – Mar 2025</span>
+    </div>
+  </header>
+
+  <!-- KEY STATS -->
+  <div class="stat-row">
+    <div class="stat">
+      <div class="stat-val accent">1,200</div>
+      <div class="stat-lbl">jobs scraped</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">$79.7K</div>
+      <div class="stat-lbl">avg salary (CAD)</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">$53K–$123K</div>
+      <div class="stat-lbl">salary range</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">50.4%</div>
+      <div class="stat-lbl">hybrid roles</div>
+    </div>
+  </div>
+
+  <!-- INSIGHT STRIP -->
+  <div class="insight-bar">
+    <div class="insight">
+      <span class="insight-label">// top skill</span>
+      <span class="insight-val">SQL — 90.7% of postings</span>
+    </div>
+    <div class="insight">
+      <span class="insight-label">// top province</span>
+      <span class="insight-val">Ontario — 547 jobs (45.6%)</span>
+    </div>
+    <div class="insight">
+      <span class="insight-label">// top industry</span>
+      <span class="insight-val">Technology — 282 postings</span>
+    </div>
+  </div>
+
+  <!-- ROW 1: Skills + Province -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">top skills in demand</div>
+      <div class="chart-wrap" style="height:280px;">
+        <canvas id="skillsChart" role="img" aria-label="Horizontal bar chart of top 12 skills. SQL leads with 1088 mentions."></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title blue">jobs by province</div>
+      <div class="chart-wrap" style="height:280px;">
+        <canvas id="provinceChart" role="img" aria-label="Bar chart of job postings by province. Ontario leads with 547."></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 2: Work Type + Experience + Degree -->
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-title">work type</div>
+      <div class="legend">
+        <span><span class="dot" style="background:#1D9E75"></span>Hybrid 50.4%</span>
+        <span><span class="dot" style="background:#378ADD"></span>Remote 29.6%</span>
+        <span><span class="dot" style="background:#888780"></span>On-site 20%</span>
+      </div>
+      <div class="chart-wrap" style="height:160px;">
+        <canvas id="workTypeChart" role="img" aria-label="Donut chart. Hybrid 605, Remote 355, On-site 240."></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title amber">experience level</div>
+      <div class="legend">
+        <span><span class="dot" style="background:#EF9F27"></span>Mid 44.8%</span>
+        <span><span class="dot" style="background:#D85A30"></span>Senior 30.5%</span>
+        <span><span class="dot" style="background:#639922"></span>Entry 24.8%</span>
+      </div>
+      <div class="chart-wrap" style="height:160px;">
+        <canvas id="expChart" role="img" aria-label="Donut chart. Mid Level 537, Senior 366, Entry 297."></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title blue">degree requirement</div>
+      <div class="legend">
+        <span><span class="dot" style="background:#185FA5"></span>Bach. Req 39.6%</span>
+        <span><span class="dot" style="background:#85B7EB"></span>Bach. Pref 27.9%</span>
+        <span><span class="dot" style="background:#73726c"></span>Not Spec. 19.3%</span>
+        <span><span class="dot" style="background:#AFA9EC"></span>Masters 13.3%</span>
+      </div>
+      <div class="chart-wrap" style="height:160px;">
+        <canvas id="degreeChart" role="img" aria-label="Donut chart of degree requirements."></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 3: Industry + Title -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title purple">top industries hiring</div>
+      <div class="chart-wrap" style="height:240px;">
+        <canvas id="industryChart" role="img" aria-label="Horizontal bar chart. Technology leads with 282."></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">job title distribution</div>
+      <div class="chart-wrap" style="height:240px;">
+        <canvas id="titleChart" role="img" aria-label="Bar chart. Data Analyst leads with 401."></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <span>n = 1,200 postings &nbsp;|&nbsp; salary data: n = 1,017</span>
+    <span>collected Nov 2023 – Mar 2025</span>
+    <span>Canada — 7 provinces</span>
+  </footer>
+
+</div>
+
+<script>
+  const textColor = '#8b949e';
+  const gridColor = 'rgba(240,246,252,0.06)';
+
+  Chart.defaults.font.family = "'JetBrains Mono', monospace";
+  Chart.defaults.font.size = 11;
+
+  // Skills
+  new Chart(document.getElementById('skillsChart'), {
+    type: 'bar',
+    data: {
+      labels: ['SQL','Excel','Python','Power BI','Tableau','SQL Server','Azure','Jira','Git','Power Query','R','DAX'],
+      datasets: [{
+        label: 'Postings',
+        data: [1088,923,732,645,572,491,303,294,287,243,230,209],
+        backgroundColor: ['#1D9E75','#1D9E75','#378ADD','#378ADD','#EF9F27','#534AB7','#534AB7','#888780','#888780','#888780','#D85A30','#D85A30'],
+        borderRadius: 4, borderSkipped: false
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.x} postings` }, backgroundColor: '#21262d', titleColor: '#e6edf3', bodyColor: '#8b949e', borderColor: 'rgba(240,246,252,0.1)', borderWidth: 1 } },
+      scales: {
+        x: { grid: { color: gridColor }, ticks: { color: textColor } },
+        y: { grid: { display: false }, ticks: { color: textColor } }
+      }
+    }
+  });
+
+  // Province
+  new Chart(document.getElementById('provinceChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Ontario','Alberta','Brit. Col.','Quebec','Sask.','Manitoba','Nova Sc.'],
+      datasets: [{
+        label: 'Jobs',
+        data: [547,226,219,104,40,34,30],
+        backgroundColor: '#378ADD',
+        borderRadius: 4, borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.y} jobs` }, backgroundColor: '#21262d', titleColor: '#e6edf3', bodyColor: '#8b949e', borderColor: 'rgba(240,246,252,0.1)', borderWidth: 1 } },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: textColor, autoSkip: false } },
+        y: { grid: { color: gridColor }, ticks: { color: textColor } }
+      }
+    }
+  });
+
+  const donutOpts = (labels, data, colors) => ({
+    type: 'doughnut',
+    data: { labels, datasets: [{ data, backgroundColor: colors, borderWidth: 0, hoverOffset: 6 }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      cutout: '68%',
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed}` }, backgroundColor: '#21262d', titleColor: '#e6edf3', bodyColor: '#8b949e', borderColor: 'rgba(240,246,252,0.1)', borderWidth: 1 }
+      }
+    }
+  });
+
+  new Chart(document.getElementById('workTypeChart'), donutOpts(
+    ['Hybrid','Remote','On-site'], [605,355,240], ['#1D9E75','#378ADD','#888780']
+  ));
+  new Chart(document.getElementById('expChart'), donutOpts(
+    ['Mid Level','Senior Level','Entry Level'], [537,366,297], ['#EF9F27','#D85A30','#639922']
+  ));
+  new Chart(document.getElementById('degreeChart'), donutOpts(
+    ['Bach. Required','Bach. Preferred','Not Specified','Masters'], [475,335,231,159], ['#185FA5','#85B7EB','#73726c','#AFA9EC']
+  ));
+
+  // Industry
+  new Chart(document.getElementById('industryChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Technology','Financial Svc.','Healthcare','Government','Retail/E-Com','Consulting','Energy','Telecom'],
+      datasets: [{
+        label: 'Postings',
+        data: [282,239,139,115,115,113,75,75],
+        backgroundColor: '#534AB7',
+        borderRadius: 4, borderSkipped: false
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.x} postings` }, backgroundColor: '#21262d', titleColor: '#e6edf3', bodyColor: '#8b949e', borderColor: 'rgba(240,246,252,0.1)', borderWidth: 1 } },
+      scales: {
+        x: { grid: { color: gridColor }, ticks: { color: textColor } },
+        y: { grid: { display: false }, ticks: { color: textColor } }
+      }
+    }
+  });
+
+  // Titles
+  new Chart(document.getElementById('titleChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Data Analyst','BI Analyst','Junior DA','Senior DA','Biz Analyst','DA II','HR DA','Fin. DA','Ops Analyst','Mktg DA'],
+      datasets: [{
+        label: 'Postings',
+        data: [401,153,144,143,115,62,52,52,44,34],
+        backgroundColor: ['#1D9E75','#0F6E56','#5DCAA5','#9FE1CB','#B5D4F4','#85B7EB','#378ADD','#185FA5','#888780','#5F5E5A'],
+        borderRadius: 4, borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.y} postings` }, backgroundColor: '#21262d', titleColor: '#e6edf3', bodyColor: '#8b949e', borderColor: 'rgba(240,246,252,0.1)', borderWidth: 1 } },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: textColor, maxRotation: 35, autoSkip: false, font: { size: 10 } } },
+        y: { grid: { color: gridColor }, ticks: { color: textColor } }
+      }
+    }
+  });
+</script>
+</body>
+</html>
