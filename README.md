@@ -193,7 +193,6 @@ Open `sql/analysis_queries.sql` in MySQL Workbench or DBeaver and run any query.
 
 ## 👤 Author
 
-**Satyam Thakur** — Data Analyst based in Saskatoon, SK  
+**Satyam Thakur** — Data Analyst  
 📧 satyamthakur115@gmail.com | [LinkedIn](https://www.linkedin.com/in/satyam-thakur-94a4231b9) | [GitHub](https://github.com/satyamthakur115)
 
-*Open to Data Analyst, BI Analyst, and Database roles across Canada 🇨🇦*
